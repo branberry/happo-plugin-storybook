@@ -1,13 +1,17 @@
-const { spawn } = require('child_process');
-const fs = require('fs');
-const path = require('path');
 
-const getStorybookVersionFromPackageJson = require('./getStorybookVersionFromPackageJson');
-const getStorybookBuildCommandParts = require('./getStorybookBuildCommandParts');
+
+import path from 'node:path';
+import fs from 'node:fs';
+import { spawn } from 'node:child_process';
+
+import getStorybookVersionFromPackageJson from './getStorybookVersionFromPackageJson';
+import getStorybookBuildCommandParts from './getStorybookBuildCommandParts';
+
+
 
 const { HAPPO_DEBUG, HAPPO_STORYBOOK_BUILD_COMMAND } = process.env;
 
-function validateSkipped(skipped) {
+function validateSkipped(skipped: any) {
   if (!Array.isArray(skipped)) {
     throw new Error(`The \`skip\` option didn't provide an array`);
   }
@@ -45,7 +49,7 @@ function resolveBuildCommandParts() {
   return getStorybookBuildCommandParts();
 }
 
-function buildStorybook({ configDir, staticDir, outputDir }) {
+function buildStorybook({ configDir, staticDir, outputDir }: any) {
   return new Promise((resolve, reject) => {
     fs.rmSync(outputDir, { recursive: true, force: true });
     const buildCommandParts = resolveBuildCommandParts();
@@ -77,7 +81,7 @@ function buildStorybook({ configDir, staticDir, outputDir }) {
       shell: process.platform == 'win32',
     });
 
-    spawned.on('exit', (code) => {
+    spawned.on('exit', (code: number) => {
       if (code === 0) {
         try {
           fs.unlinkSync(path.join(outputDir, 'project.json'));
@@ -86,7 +90,7 @@ function buildStorybook({ configDir, staticDir, outputDir }) {
             `Ignoring error when attempting to remove project.json: ${error}`,
           );
         }
-        resolve();
+        resolve(undefined);
       } else {
         reject(new Error('Failed to build static storybook package'));
       }
@@ -100,7 +104,7 @@ module.exports = function happoStorybookPlugin({
   outputDir = '.out',
   usePrebuiltPackage = false,
   skip,
-} = {}) {
+}: any = {}) {
   return {
     generateStaticPackage: async () => {
       if (!usePrebuiltPackage) {
