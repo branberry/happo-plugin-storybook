@@ -47,7 +47,7 @@ addons.register(ADDON_ID, () => {
     title: 'Happo',
     render: ({ active, key }) => {
       return (
-        <AddonPanel active={active} key={key}>
+        <AddonPanel active={active ?? false} key={key}>
           <HappoPanel />
         </AddonPanel>
       );

@@ -48,7 +48,13 @@ function resolveBuildCommandParts() {
   return getStorybookBuildCommandParts();
 }
 
-function buildStorybook({ configDir, staticDir, outputDir }: any) {
+interface BuildStorybookParams {
+  configDir: string;
+  staticDir: string;
+  outputDir: string;
+}
+
+function buildStorybook({ configDir, staticDir, outputDir }: BuildStorybookParams) {
   return new Promise((resolve, reject) => {
     fs.rmSync(outputDir, { recursive: true, force: true });
     const buildCommandParts: any = resolveBuildCommandParts();
@@ -97,7 +103,7 @@ function buildStorybook({ configDir, staticDir, outputDir }: any) {
   });
 }
 
-module.exports = function happoStorybookPlugin({
+export function happoStorybookPlugin({
   configDir = '.storybook',
   staticDir,
   outputDir = '.out',
