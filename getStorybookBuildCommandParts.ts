@@ -3,7 +3,7 @@ const path = require('path');
 
 const { HAPPO_DEBUG } = process.env;
 
-module.exports = function getStorybook7BuildCommandParts(
+export function getStorybook7BuildCommandParts(
   packageJsonPath = path.join(process.cwd(), 'package.json'),
 ) {
   try {

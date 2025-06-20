@@ -3,9 +3,8 @@
 import path from 'node:path';
 import fs from 'node:fs';
 import { spawn } from 'node:child_process';
+import { getStorybookVersionFromPackageJson } from './getStorybookVersionFromPackageJson';
 
-import getStorybookVersionFromPackageJson from './getStorybookVersionFromPackageJson';
-import getStorybookBuildCommandParts from './getStorybookBuildCommandParts';
 
 
 
@@ -40,7 +39,7 @@ function resolveBuildCommandParts() {
     }
   }
 
-  if (version < 9) {
+  if (version! < 9) {
     throw new Error(
       `Storybook v${version} is not supported. Please upgrade to v9 or later, or downgrade happo-plugin-storybook to an earlier version.`,
     );
@@ -52,7 +51,7 @@ function resolveBuildCommandParts() {
 function buildStorybook({ configDir, staticDir, outputDir }: any) {
   return new Promise((resolve, reject) => {
     fs.rmSync(outputDir, { recursive: true, force: true });
-    const buildCommandParts = resolveBuildCommandParts();
+    const buildCommandParts: any = resolveBuildCommandParts();
     const params = [
       ...buildCommandParts,
       '--output-dir',
@@ -147,3 +146,7 @@ module.exports = function happoStorybookPlugin({
     },
   };
 };
+function getStorybookBuildCommandParts() {
+  throw new Error('Function not implemented.');
+}
+
